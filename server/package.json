@@ -13,6 +13,6 @@
     "telegraf": "^4.5.2"
   },
   "scripts": {
-    "server": "node -r esm server/server.js"
+    "server": "node -r esm server.js"
   }
 }

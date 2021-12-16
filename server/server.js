@@ -13,7 +13,7 @@ const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN)
 
 bot.command('start', ctx => {
   console.log(ctx.from)
-  bot.telegram.sendMessage(ctx.chat.id, 'hey motherfucker', {})
+  bot.telegram.sendMessage(ctx.chat.id, 'hey ' + ctx.from.username, {})
 })
 
 bot.launch()
