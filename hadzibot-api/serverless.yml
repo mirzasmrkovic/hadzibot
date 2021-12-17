@@ -30,6 +30,7 @@ provider:
   environment:
     TG_BOT_TOKEN: ${self:custom.secrets.TG_BOT_TOKEN}
     API_URL: ${self:custom.secrets.API_URL}
+    REZIJA_ID: ${self:custom.secrets.REZIJA_ID}
 
 # you can overwrite defaults here
 #  region: us-east-1

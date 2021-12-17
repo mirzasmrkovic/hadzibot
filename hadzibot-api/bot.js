@@ -3,36 +3,39 @@ const bot = new Telegraf(process.env.TG_BOT_TOKEN)
 const axios = require('axios')
 
 bot.command('open', async ctx => {
-  // ctx.chat.id === ???
-  if (true) {
+  if (ctx.chat.id === parseInt(process.env.REZIJA_ID)) {
     await axios({
       method: 'post',
       url: process.env.API_URL + 'd=o',
     })
+    ctx.reply(`opened hi for ${ctx.from.username}`)
+  } else {
+    ctx.reply(`denied access for ${ctx.from.username}`)
   }
-  ctx.reply(`opened hi for ${ctx.from.username} ${ctx.chat.id}`)
 })
 
 bot.command('close', async ctx => {
-  // ctx.chat.id === ???
-  if (true) {
+  if (ctx.chat.id === parseInt(process.env.REZIJA_ID)) {
     await axios({
       method: 'post',
       url: process.env.API_URL + 'd=c',
     })
+    ctx.reply(`closed hi for ${ctx.from.username}`)
+  } else {
+    ctx.reply(`denied access for ${ctx.from.username}`)
   }
-  ctx.reply(`close hi for ${ctx.from.username} ${ctx.chat.id}`)
 })
 
-bot.command('intercom', async ctx => {
-  // ctx.chat.id === ???
-  if (true) {
+bot.command('interfon', async ctx => {
+  if (ctx.chat.id === parseInt(process.env.REZIJA_ID)) {
     await axios({
       method: 'post',
       url: process.env.API_URL + 'i=o',
     })
+    ctx.reply(`buzzed interfon for ${ctx.from.username}`)
+  } else {
+    ctx.reply(`denied access for ${ctx.from.username}`)
   }
-  ctx.reply(`buzzed intercom for ${ctx.from.username} ${ctx.chat.id}`)
 })
 
 bot.command('ping', ctx => {
