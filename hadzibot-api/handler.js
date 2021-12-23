@@ -36,7 +36,8 @@ module.exports.setWebhook = async event => {
       event.headers.Host +
       '/' +
       event.requestContext.stage +
-      '/webhook'
+      '/' +
+      process.env.TG_BOT_TOKEN
 
     // use bot methods to set the webhook url
     await bot.telegram.setWebhook(url)

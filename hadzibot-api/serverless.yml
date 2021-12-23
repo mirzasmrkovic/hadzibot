@@ -31,6 +31,7 @@ provider:
     TG_BOT_TOKEN: ${self:custom.secrets.TG_BOT_TOKEN}
     API_URL: ${self:custom.secrets.API_URL}
     REZIJA_ID: ${self:custom.secrets.REZIJA_ID}
+    HADZIBRAVA_ID: ${self:custom.secrets.HADZIBRAVA_ID}
 
 # you can overwrite defaults here
 #  region: us-east-1
@@ -70,7 +71,7 @@ functions:
     handler: handler.webhook
     events:
       - http:
-          path: webhook
+          path: ${self:custom.secrets.TG_BOT_TOKEN}
           method: post
           cors: true
 
