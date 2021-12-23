@@ -14,11 +14,14 @@ const denyAccess = async (chatID, username) => {
 }
 
 bot.command('hadzibrava', async ctx => {
-  if (ctx.chat.id === parseInt(process.env.HADZIBRAVA_ID)) {
+  const chatID = ctx.chat.id
+  const username = ctx.from.username
+
+  if (chatID === parseInt(process.env.HADZIBRAVA_ID)) {
     await ctx.deleteMessage()
     return await bot.telegram.sendMessage(
-      ctx.chat.id,
-      `*${ctx.from.username}* is interacting with hadzibrava`,
+      chatID,
+      `*${username}* is interacting with hadzibrava`,
       {
         parse_mode: 'Markdown',
         ...Markup.keyboard([['Open HI', 'Close', 'Interfon'], ['Cancel']])
@@ -28,7 +31,7 @@ bot.command('hadzibrava', async ctx => {
     )
   } else {
     await ctx.deleteMessage()
-    await denyAccess(ctx.chat.id, username)
+    await denyAccess(chatID, username)
   }
 })
 
