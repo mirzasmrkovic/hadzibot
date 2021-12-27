@@ -114,4 +114,68 @@ bot.hears('PING', async ctx => {
   })
 })
 
+const shuffle = array => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[j]] = [array[j], array[i]]
+  }
+}
+
+const drawTeams = ctx => {
+  const text = ctx.message.text
+  if (text.length >= 300) throw 'PREVISE IGRACA'
+  const pool = text.split(' ')
+  pool.shift()
+
+  const stringSize = pool.shift()
+  if (isNaN(stringSize)) {
+    throw "FIRST PARAM ISN'T A NUMBER"
+  }
+
+  shuffle(pool)
+
+  const teams = []
+  const size = parseInt(stringSize)
+  if (size < 1 || size > 30) throw 'BROJ IGRACA MORA BITI 1 ILI VISE'
+  for (let i = 0; i < pool.length; ) {
+    const temp = []
+    for (let j = 0; j < size && i < pool.length; j++) {
+      temp.push(pool[i])
+      i++
+    }
+    teams.push(temp)
+  }
+
+  return teams
+}
+
+bot.command('timovi', async ctx => {
+  const chatID = ctx.chat.id
+
+  try {
+    const teams = drawTeams(ctx)
+
+    for (let i = 0; i < teams.length; i++) {
+      let response = i + 1 + '\\. '
+      for (let j = 0; j < teams[i].length; j++) {
+        let name = `*${teams[i][j]}*`
+        if (j !== teams[i].length - 1) name += ', '
+        response += name
+      }
+      await bot.telegram.sendMessage(chatID, response, {
+        parse_mode: 'MarkdownV2',
+      })
+    }
+    return
+  } catch (error) {
+    return await bot.telegram.sendMessage(
+      chatID,
+      '*UPOTREBA*: /timovi \\[velicina tima\\] \\[imena igraca\\]',
+      {
+        parse_mode: 'MarkdownV2',
+      }
+    )
+  }
+})
+
 module.exports = bot
