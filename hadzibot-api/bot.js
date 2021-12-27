@@ -9,7 +9,7 @@ const denyAccess = async (chatID, username) => {
   return await bot.telegram.sendMessage(
     chatID,
     `Denied access for *${username}*`,
-    { parse_mode: 'Markdown' }
+    { parse_mode: 'MarkdownV2' }
   )
 }
 
@@ -23,7 +23,7 @@ bot.command('hadzibrava', async ctx => {
       chatID,
       `*${username}* is interacting with hadzibrava`,
       {
-        parse_mode: 'Markdown',
+        parse_mode: 'MarkdownV2',
         ...Markup.keyboard([['Open HI', 'Close', 'Interfon'], ['Cancel']])
           .oneTime(true)
           .resize(),
@@ -50,7 +50,7 @@ bot.hears('Open HI', async ctx => {
     return await bot.telegram.sendMessage(
       chatID,
       `opened hi for *${username}*`,
-      { parse_mode: 'Markdown' }
+      { parse_mode: 'MarkdownV2' }
     )
   } else {
     await ctx.deleteMessage()
@@ -72,7 +72,7 @@ bot.hears('Close', async ctx => {
     return await bot.telegram.sendMessage(
       chatID,
       `closed hi for *${username}*`,
-      { parse_mode: 'Markdown' }
+      { parse_mode: 'MarkdownV2' }
     )
   } else {
     await ctx.deleteMessage()
@@ -94,7 +94,7 @@ bot.hears('Interfon', async ctx => {
     return await bot.telegram.sendMessage(
       chatID,
       `buzzed interfon for *${username}*`,
-      { parse_mode: 'Markdown' }
+      { parse_mode: 'MarkdownV2' }
     )
   } else {
     await ctx.deleteMessage()
@@ -110,7 +110,7 @@ bot.hears('Cancel', async ctx => {
 bot.hears('PING', async ctx => {
   Markup.removeKeyboard()
   return bot.telegram.sendMessage(ctx.chat.id, '*PONG!*', {
-    parse_mode: 'Markdown',
+    parse_mode: 'MarkdownV2',
   })
 })
 
