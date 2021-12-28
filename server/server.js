@@ -20,7 +20,7 @@ const denyAccess = async (chatID, username) => {
 
 bot.command('hadzibrava', async ctx => {
   const chatID = ctx.chat.id
-  const username = username
+  const username = ctx.from.username
   if (chatID === parseInt(process.env.HADZIBRAVA_ID)) {
     await ctx.deleteMessage()
     return await bot.telegram.sendMessage(
@@ -131,15 +131,13 @@ const drawTeams = ctx => {
   const pool = text.split(' ')
   pool.shift()
 
-  const stringSize = pool.shift()
+  const size = parseInt(pool.shift())
   if (isNaN(stringSize)) {
     throw "FIRST PARAM ISN'T A NUMBER"
   }
-
   shuffle(pool)
 
   const teams = []
-  const size = parseInt(stringSize)
   if (size < 1 || size > 30) throw 'BROJ IGRACA MORA BITI 1 ILI VISE'
   for (let i = 0; i < pool.length; ) {
     const temp = []
