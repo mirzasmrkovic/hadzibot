@@ -132,7 +132,7 @@ const drawTeams = ctx => {
   pool.shift()
 
   const size = parseInt(pool.shift())
-  if (isNaN(stringSize)) {
+  if (isNaN(size)) {
     throw "FIRST PARAM ISN'T A NUMBER"
   }
   shuffle(pool)
