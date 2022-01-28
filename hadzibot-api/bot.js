@@ -13,6 +13,12 @@ const denyAccess = async (chatID, username) => {
   )
 }
 
+const reply = async (chatID, text, opts = {}) => {
+  return await bot.telegram.sendMessage(chatID, `${text}`, {
+    ...opts,
+  })
+}
+
 bot.command('hadzibrava', async ctx => {
   const chatID = ctx.chat.id
   const username = ctx.from.username
@@ -20,16 +26,13 @@ bot.command('hadzibrava', async ctx => {
   try {
     if (chatID === parseInt(process.env.HADZIBRAVA_ID)) {
       await ctx.deleteMessage()
-      return await bot.telegram.sendMessage(
-        chatID,
-        `<b>${username}</b> is interacting with hadzibrava`,
-        {
-          parse_mode: 'HTML',
-          ...Markup.keyboard([['Open HI', 'Close', 'Interfon'], ['Cancel']])
-            .oneTime(true)
-            .resize(),
-        }
-      )
+      const opts = {
+        parse_mode: 'HTML',
+        ...Markup.keyboard([['Open HI', 'Close', 'Interfon'], ['Cancel']])
+          .oneTime(true)
+          .resize(),
+      }
+      await reply(chatID, `${username} is interacting with hadzibrava`, opts)
     } else {
       await ctx.deleteMessage()
       await denyAccess(chatID, username)
@@ -53,11 +56,8 @@ bot.hears('Open HI', async ctx => {
       })
       Markup.removeKeyboard()
 
-      return await bot.telegram.sendMessage(
-        chatID,
-        `opened hi for <b>${username}</b>`,
-        { parse_mode: 'HTML' }
-      )
+      const opts = { parse_mode: 'HTML' }
+      await reply(chatID, `opened hi for <b>${username}</b>`, opts)
     } else {
       await ctx.deleteMessage()
       await denyAccess(chatID, username)
@@ -79,11 +79,8 @@ bot.hears('Close', async ctx => {
         url: process.env.API_URL + 'd=c',
       })
       Markup.removeKeyboard()
-      return await bot.telegram.sendMessage(
-        chatID,
-        `closed hi for <b>${username}</b>`,
-        { parse_mode: 'HTML' }
-      )
+      const opts = { parse_mode: 'HTML' }
+      await reply(chatID, `closed hi for <b>${username}</b>`, opts)
     } else {
       await ctx.deleteMessage()
       await denyAccess(chatID, username)
@@ -106,11 +103,8 @@ bot.hears('Interfon', async ctx => {
         url: process.env.API_URL + 'i=o',
       })
       Markup.removeKeyboard()
-      return await bot.telegram.sendMessage(
-        chatID,
-        `buzzed interfon for <b>${username}</b>`,
-        { parse_mode: 'HTML' }
-      )
+      const opts = { parse_mode: 'HTML' }
+      await reply(chatID, `buzzed interfon for <b>${username}</b>`, opts)
     } else {
       await ctx.deleteMessage()
       await denyAccess(chatID, username)
