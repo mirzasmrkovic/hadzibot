@@ -13,8 +13,8 @@ const denyAccess = async (chatID, username) => {
 
   return await bot.telegram.sendMessage(
     chatID,
-    `Denied access for *${username}*`,
-    { parse_mode: 'MarkdownV2' }
+    `Denied access for <b>${username}</b>`,
+    { parse_mode: 'HTML' }
   )
 }
 
@@ -27,9 +27,9 @@ bot.command('hadzibrava', async ctx => {
     if (chatID === parseInt(process.env.HADZIBRAVA_ID)) {
       return await bot.telegram.sendMessage(
         chatID,
-        `*${username}* is interacting with hadzibrava`,
+        `<b>${username}</b> is interacting with hadzibrava`,
         {
-          parse_mode: 'MarkdownV2',
+          parse_mode: 'HTML',
           ...Markup.keyboard([['Open HI', 'Close', 'Interfon'], ['Cancel']])
             .oneTime(true)
             .resize(),
@@ -59,8 +59,8 @@ bot.hears('Open HI', async ctx => {
 
       return await bot.telegram.sendMessage(
         chatID,
-        `opened hi for *${username}*`,
-        { parse_mode: 'MarkdownV2' }
+        `opened hi for <b>${username}</b>`,
+        { parse_mode: 'HTML' }
       )
     } else {
       await denyAccess(chatID, username)
@@ -85,8 +85,8 @@ bot.hears('Close', async ctx => {
       Markup.removeKeyboard()
       return await bot.telegram.sendMessage(
         chatID,
-        `closed hi for *${username}*`,
-        { parse_mode: 'MarkdownV2' }
+        `closed hi for <b>${username}</b>`,
+        { parse_mode: 'HTML' }
       )
     } else {
       await denyAccess(chatID, username)
@@ -111,8 +111,8 @@ bot.hears('Interfon', async ctx => {
       Markup.removeKeyboard()
       return await bot.telegram.sendMessage(
         chatID,
-        `buzzed interfon for *${username}*`,
-        { parse_mode: 'MarkdownV2' }
+        `buzzed interfon for <b>${username}</b>`,
+        { parse_mode: 'HTML' }
       )
     } else {
       await denyAccess(chatID, username)
