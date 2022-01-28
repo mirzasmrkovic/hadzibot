@@ -21,21 +21,26 @@ const denyAccess = async (chatID, username) => {
 bot.command('hadzibrava', async ctx => {
   const chatID = ctx.chat.id
   const username = ctx.from.username
-  if (chatID === parseInt(process.env.HADZIBRAVA_ID)) {
+
+  try {
     await ctx.deleteMessage()
-    return await bot.telegram.sendMessage(
-      chatID,
-      `*${username}* is interacting with hadzibrava`,
-      {
-        parse_mode: 'MarkdownV2',
-        ...Markup.keyboard([['Open HI', 'Close', 'Interfon'], ['Cancel']])
-          .oneTime(true)
-          .resize(),
-      }
-    )
-  } else {
-    await ctx.deleteMessage()
-    await denyAccess(chatID, username)
+    if (chatID === parseInt(process.env.HADZIBRAVA_ID)) {
+      return await bot.telegram.sendMessage(
+        chatID,
+        `*${username}* is interacting with hadzibrava`,
+        {
+          parse_mode: 'MarkdownV2',
+          ...Markup.keyboard([['Open HI', 'Close', 'Interfon'], ['Cancel']])
+            .oneTime(true)
+            .resize(),
+        }
+      )
+    } else {
+      await denyAccess(chatID, username)
+    }
+  } catch (error) {
+    console.error(error)
+    return await bot.telegram.sendMessage(chatID, 'something failed')
   }
 })
 
@@ -43,22 +48,26 @@ bot.hears('Open HI', async ctx => {
   const chatID = ctx.chat.id
   const username = ctx.from.username
 
-  if (chatID === parseInt(process.env.HADZIBRAVA_ID)) {
+  try {
     await ctx.deleteMessage()
-    await axios({
-      method: 'post',
-      url: process.env.API_URL + 'd=o',
-    })
-    Markup.removeKeyboard()
+    if (chatID === parseInt(process.env.HADZIBRAVA_ID)) {
+      await axios({
+        method: 'post',
+        url: process.env.API_URL + 'd=o',
+      })
+      Markup.removeKeyboard()
 
-    return await bot.telegram.sendMessage(
-      chatID,
-      `opened hi for *${username}*`,
-      { parse_mode: 'MarkdownV2' }
-    )
-  } else {
-    await ctx.deleteMessage()
-    await denyAccess(chatID, username)
+      return await bot.telegram.sendMessage(
+        chatID,
+        `opened hi for *${username}*`,
+        { parse_mode: 'MarkdownV2' }
+      )
+    } else {
+      await denyAccess(chatID, username)
+    }
+  } catch (error) {
+    console.error(error)
+    return await bot.telegram.sendMessage(chatID, 'something failed')
   }
 })
 
@@ -66,21 +75,25 @@ bot.hears('Close', async ctx => {
   const chatID = ctx.chat.id
   const username = ctx.from.username
 
-  if (chatID === parseInt(process.env.HADZIBRAVA_ID)) {
+  try {
     await ctx.deleteMessage()
-    await axios({
-      method: 'post',
-      url: process.env.API_URL + 'd=c',
-    })
-    Markup.removeKeyboard()
-    return await bot.telegram.sendMessage(
-      chatID,
-      `closed hi for *${username}*`,
-      { parse_mode: 'MarkdownV2' }
-    )
-  } else {
-    await ctx.deleteMessage()
-    await denyAccess(chatID, username)
+    if (chatID === parseInt(process.env.HADZIBRAVA_ID)) {
+      await axios({
+        method: 'post',
+        url: process.env.API_URL + 'd=c',
+      })
+      Markup.removeKeyboard()
+      return await bot.telegram.sendMessage(
+        chatID,
+        `closed hi for *${username}*`,
+        { parse_mode: 'MarkdownV2' }
+      )
+    } else {
+      await denyAccess(chatID, username)
+    }
+  } catch (error) {
+    console.error(error)
+    return await bot.telegram.sendMessage(chatID, 'something failed')
   }
 })
 
@@ -88,22 +101,37 @@ bot.hears('Interfon', async ctx => {
   const chatID = ctx.chat.id
   const username = ctx.from.username
 
-  if (chatID === parseInt(process.env.HADZIBRAVA_ID)) {
+  try {
     await ctx.deleteMessage()
-    await axios({
-      method: 'post',
-      url: process.env.API_URL + 'i=o',
-    })
-    Markup.removeKeyboard()
-    return await bot.telegram.sendMessage(
-      chatID,
-      `buzzed interfon for *${username}*`,
-      { parse_mode: 'MarkdownV2' }
-    )
-  } else {
-    await ctx.deleteMessage()
-    await denyAccess(chatID, username)
+    if (chatID === parseInt(process.env.HADZIBRAVA_ID)) {
+      await axios({
+        method: 'post',
+        url: process.env.API_URL + 'i=o',
+      })
+      Markup.removeKeyboard()
+      return await bot.telegram.sendMessage(
+        chatID,
+        `buzzed interfon for *${username}*`,
+        { parse_mode: 'MarkdownV2' }
+      )
+    } else {
+      await denyAccess(chatID, username)
+    }
+  } catch (error) {
+    console.error(error)
+    return await bot.telegram.sendMessage(chatID, 'something failed')
   }
+})
+
+bot.hears('Cancel', async ctx => {
+  const chatID = ctx.chat.id
+  try {
+    await ctx.deleteMessage()
+  } catch (error) {
+    console.error(error)
+    return await bot.telegram.sendMessage(chatID, 'something failed')
+  }
+  Markup.removeKeyboard()
 })
 
 bot.hears('Cancel', async ctx => {
